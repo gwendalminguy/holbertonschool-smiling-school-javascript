@@ -914,18 +914,19 @@
     transition: transform .3s ease;
 }
 
-.videos.arrow-left,
-.videos.arrow-right {
+.carousel-arrow-left,
+.carousel-arrow-right {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    cursor: pointer;
 }
 
-.videos.arrow-left {
+.carousel-arrow-left {
     left: -100px;
 }
 
-.videos.arrow-right {
+.carousel-arrow-right {
     right: -100px;
 }
 

@@ -49,9 +49,9 @@ async function loadQuotes() {
     setLoading(false);
 }
 
-// VIDEOS
-function getVideos() {
-    // Fetch videos informations from `smileschool-api`.
+// TUTORIALS
+function getTutorials() {
+    // Fetch tutorials informations from `smileschool-api`.
     return $.get("https://smileschool-api.hbtn.info/popular-tutorials")
         .fail(function(error) {
             console.error(error);
@@ -59,37 +59,37 @@ function getVideos() {
         });
 }
 
-async function loadVideos() {
-    // Build videos section with fetched videos.
+async function loadTutorials() {
+    // Build tutorials section with fetched videos.
     let $carousel = $(".popular .carousel-inner");
 
     setLoading(true);
 
-    let response = await getVideos();
+    let response = await getTutorials();
 
     const $item = $("<div>", {class: "viewport overflow-hidden"});
     const $row = $("<div>", {class: "track d-flex flex-nowrap"});
 
-    response.forEach(video => {
-        console.log(video);
+    response.forEach(tutorials => {
+        console.log(tutorials);
 
-        // Building video rating
+        // Building tutorials rating
         const $rating = $("<div>", { class: "rating" });
 
         for (let i = 0 ; i < 5 ; i++) {
             $rating.append($("<img>", {
-                src: i < video.star ? "images/star_on.png" : "images/star_off.png",
-                alt: i < video.star ? "star on" : "star off"
+                src: i < tutorials.star ? "images/star_on.png" : "images/star_off.png",
+                alt: i < tutorials.star ? "star on" : "star off"
             }));
         }
 
-        // Building whole video element
+        // Building whole tutorials element
         const $col = $("<div>", {class: "carousel-card"})
             .append($("<div>", {class: "card"})
                 .append($("<img>", {
-                    src: video.thumb_url,
+                    src: tutorials.thumb_url,
                     class: "card-img-top",
-                    alt: "Video thumbnail"
+                    alt: "tutorials thumbnail"
                 })).append($("<div>", {class: "card-img-overlay text-center"})
                 .append($("<img>", {
                     src: "images/play.png",
@@ -98,18 +98,18 @@ async function loadVideos() {
                     class: "align-self-center play-overlay"
                 }))
             ).append($("<div>", {class: "card-body"})
-                .append($("<h5>", {class: "card-title font-weight-bold"}).text(video.title))
-                .append($("<p>", {class: "card-text text-muted"}).text(video["sub-title"]))
+                .append($("<h5>", {class: "card-title font-weight-bold"}).text(tutorials.title))
+                .append($("<p>", {class: "card-text text-muted"}).text(tutorials["sub-title"]))
                 .append($("<div>", {class: "creator d-flex align-items-center"})
                     .append($("<img>", {
-                        src: video.author_pic_url,
-                        alt: "Creator of video",
+                        src: tutorials.author_pic_url,
+                        alt: "Creator of tutorials",
                         width: "30px",
                         class: "rounded-circle"
-                    })).append($("<h6>", {class: "pl-3 m-0 main-color"}).text(video.author))
+                    })).append($("<h6>", {class: "pl-3 m-0 main-color"}).text(tutorials.author))
                 ).append($("<div>", {class: "info pt-3 d-flex justify-content-between"})
                     .append($rating)
-                    .append($("<span>", {class: "main-color"}).text(video.duration))
+                    .append($("<span>", {class: "main-color"}).text(tutorials.duration))
                 )
             )
         );
@@ -125,15 +125,15 @@ async function loadVideos() {
     setLoading(false);
 }
 
-// CAROUSEL (VIDEOS)
+// CAROUSEL (TUTORIALS)
 function addCarouselControl() {
     // Add behavior to the slider buttons
     // of the carousel (left/right arrows).
-    $(".popular .arrow-right").on("click", function () {
+    $(".carousel-arrow-right").on("click", function () {
         moveCarousel(1);
     });
 
-    $(".popular .arrow-left").on("click", function () {
+    $(".carousel-arrow-left").on("click", function () {
         moveCarousel(-1);
     });
 }
@@ -149,10 +149,7 @@ function moveCarousel(direction) {
         currentSlide += direction;
     }
 
-    $track.css(
-        "transform",
-        `translateX(-${currentSlide * cardWidth}px)`
-    );
+    $track.css("transform", `translateX(-${currentSlide * cardWidth}px)`);
 }
 
 // LOADING
@@ -166,7 +163,7 @@ $(document).ready(function() {
     $("<div>", {class: "loader"}).insertBefore(".carousel-inner");
 
     setTimeout(() => { loadQuotes(); }, 500);
-    setTimeout(() => { loadVideos(); }, 500);
+    setTimeout(() => { loadTutorials(); }, 500);
 
     addCarouselControl();
 });
