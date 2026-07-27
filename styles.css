@@ -901,6 +901,34 @@
   }
 }
 
+/* CAROUSEL */
+.carousel {
+  position: relative;
+}
+
+.carousel-card {
+    flex: 0 0 25%;
+}
+
+.track {
+    transition: transform .3s ease;
+}
+
+.videos.arrow-left,
+.videos.arrow-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.videos.arrow-left {
+    left: -100px;
+}
+
+.videos.arrow-right {
+    right: -100px;
+}
+
 /* LOADER */
 .loader {
     border: 10px solid #f3f3f3;
