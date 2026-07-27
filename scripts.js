@@ -7,7 +7,7 @@ function getQuotes() {
 }
 
 async function loadQuotes() {
-    let $carousel = $(".carousel-inner");
+    let $carousel = $(".quotes .carousel-inner");
 
     setLoading(true);
 
