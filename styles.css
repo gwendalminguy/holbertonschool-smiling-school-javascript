@@ -917,17 +917,19 @@
 .carousel-arrow-left,
 .carousel-arrow-right {
     position: absolute;
-    top: 50%;
+    top: 25%;
     transform: translateY(-50%);
+    transform: scale(0.75);
+    opacity: 75%;
     cursor: pointer;
 }
 
 .carousel-arrow-left {
-    left: -100px;
+    left: -125px;
 }
 
 .carousel-arrow-right {
-    right: -100px;
+    right: -125px;
 }
 
 /* LOADER */
