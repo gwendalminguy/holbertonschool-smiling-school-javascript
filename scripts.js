@@ -1,13 +1,54 @@
-// QUOTES:
-function getQuotes() {
+// FETCHING:
+function getElements(link) {
     // Fetch quotes informations from `smileschool-api`.
-    return $.get("https://smileschool-api.hbtn.info/quotes")
+    return $.get(link)
         .fail(function(error) {
             console.error(error);
             alert("Server Error");
         });
 }
 
+// LOADING:
+function setLoading(loading) {
+    // Set a loading spinner while fetching content.
+    $(".loader").toggle(loading);
+    $(".carousel-inner").toggle(!loading);
+}
+
+// CAROUSEL:
+function createCarousel(name) {
+    // Create a carousel.
+    const $carousel = $(`#${name}-carousel`);
+    const $track = $carousel.find(".track");
+
+    const carousel = {
+        name: name,
+        currentSlide: 0,
+        maxSlide: 0,
+        $track,
+
+        move(direction) {
+            const cardWidth = $carousel.find(".carousel-card").outerWidth(true);
+
+            // Check if there is a previous/next card to move to.
+            if ((direction > 0 && this.currentSlide < this.maxSlide) ||
+                (direction < 0 && this.currentSlide > 0)
+            ) {
+                this.currentSlide += direction;
+            }
+
+            $track.css("transform", `translateX(-${this.currentSlide * cardWidth}px)`);
+        }
+    };
+
+    // Add sliders behavior
+    $carousel.find(".carousel-arrow-right").on("click", () => carousel.move(1));
+    $carousel.find(".carousel-arrow-left").on("click", () => carousel.move(-1));
+
+    return carousel;
+}
+
+// QUOTES:
 function buildQuoteElement(quote) {
     // Building each quote element.
     const $element = $("<div>", {class: `carousel-item ${quote.id === 1 ? "active" : ""}`}) // Setting first item to 'active'
@@ -38,7 +79,7 @@ async function loadQuotes() {
 
     setLoading(true);
 
-    let response = await getQuotes();
+    let response = await getElements("https://smileschool-api.hbtn.info/quotes");
 
     response.forEach(quote => {
         let $element = buildQuoteElement(quote);
@@ -49,15 +90,6 @@ async function loadQuotes() {
 }
 
 // POPULAR TUTORIALS:
-function getTutorials() {
-    // Fetch tutorials informations from `smileschool-api`.
-    return $.get("https://smileschool-api.hbtn.info/popular-tutorials")
-        .fail(function(error) {
-            console.error(error);
-            alert("Server Error");
-        });
-}
-
 function buildTutorialElement(tutorial) {
     // Build tutorial rating.
     const $rating = $("<div>", { class: "rating" });
@@ -110,7 +142,7 @@ async function loadTutorials() {
 
     setLoading(true);
 
-    let response = await getTutorials();
+    let response = await getElements("https://smileschool-api.hbtn.info/popular-tutorials");
 
     const $item = $("<div>", {class: "viewport overflow-hidden"});
     const $row = $("<div>", {class: "track d-flex flex-nowrap"});
@@ -131,15 +163,6 @@ async function loadTutorials() {
 }
 
 // LATEST VIDEOS:
-function getVideos() {
-    // Fetch videos informations from `smileschool-api`.
-    return $.get("https://smileschool-api.hbtn.info/latest-videos")
-        .fail(function(error) {
-            console.error(error);
-            alert("Server Error");
-        });
-}
-
 function buildVideoElement(video) {
     // Build video rating.
     const $rating = $("<div>", { class: "rating" });
@@ -192,7 +215,7 @@ async function loadVideos() {
 
     setLoading(true);
 
-    let response = await getVideos();
+    let response = await getElements("https://smileschool-api.hbtn.info/latest-videos");
 
     const $item = $("<div>", {class: "viewport overflow-hidden"});
     const $row = $("<div>", {class: "track d-flex flex-nowrap"});
@@ -210,46 +233,6 @@ async function loadVideos() {
     carousel.maxSlide = $carousel.find(".carousel-card").length - 4;
 
     setLoading(false);
-}
-
-// CAROUSEL:
-function createCarousel(name) {
-    // Create a carousel.
-    const $carousel = $(`#${name}-carousel`);
-    const $track = $carousel.find(".track");
-
-    const carousel = {
-        name: name,
-        currentSlide: 0,
-        maxSlide: 0,
-        $track,
-
-        move(direction) {
-            const cardWidth = $carousel.find(".carousel-card").outerWidth(true);
-
-            // Check if there is a previous/next card to move to.
-            if ((direction > 0 && this.currentSlide < this.maxSlide) ||
-                (direction < 0 && this.currentSlide > 0)
-            ) {
-                this.currentSlide += direction;
-            }
-
-            $track.css("transform", `translateX(-${this.currentSlide * cardWidth}px)`);
-        }
-    };
-
-    // Add sliders behavior
-    $carousel.find(".carousel-arrow-right").on("click", () => carousel.move(1));
-    $carousel.find(".carousel-arrow-left").on("click", () => carousel.move(-1));
-
-    return carousel;
-}
-
-// LOADING:
-function setLoading(loading) {
-    // Set a loading spinner while fetching content.
-    $(".loader").toggle(loading);
-    $(".carousel-inner").toggle(!loading);
 }
 
 $(document).ready(function() {
