@@ -105,7 +105,7 @@ function buildTutorialElement(tutorial) {
 
 async function loadTutorials() {
     // Build tutorials section with fetched videos.
-    let $carousel = $(".popular .carousel-inner");
+    let $carousel = $(".tutorials .carousel-inner");
 
     setLoading(true);
 
