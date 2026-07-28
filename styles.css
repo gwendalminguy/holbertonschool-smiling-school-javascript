@@ -941,6 +941,7 @@
     height: 80px;
     animation: spin 2s linear infinite;
     margin: auto;
+    margin-bottom: 100px;
 }
 
 @keyframes spin {
