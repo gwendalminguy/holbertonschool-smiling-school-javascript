@@ -105,7 +105,8 @@ function buildTutorialElement(tutorial) {
 
 async function loadTutorials() {
     // Build tutorials section with fetched videos.
-    let $carousel = $(".tutorials .carousel-inner");
+    const name = "tutorials"
+    const $carousel = $(`#${name}-carousel`);
 
     setLoading(true);
 
@@ -115,8 +116,6 @@ async function loadTutorials() {
     const $row = $("<div>", {class: "track d-flex flex-nowrap"});
 
     response.forEach(tutorial => {
-        console.log(tutorial);
-
         let $col = buildTutorialElement(tutorial);
 
         $row.append($col);
@@ -125,7 +124,89 @@ async function loadTutorials() {
     $item.append($row);
     $carousel.append($item);
 
-    const carousel = createCarousel("tutorials");
+    const carousel = createCarousel(name);
+    carousel.maxSlide = $carousel.find(".carousel-card").length - 4;
+
+    setLoading(false);
+}
+
+// LATEST VIDEOS:
+function getVideos() {
+    // Fetch videos informations from `smileschool-api`.
+    return $.get("https://smileschool-api.hbtn.info/latest-videos")
+        .fail(function(error) {
+            console.error(error);
+            alert("Server Error");
+        });
+}
+
+function buildVideoElement(video) {
+    // Build video rating.
+    const $rating = $("<div>", { class: "rating" });
+
+    for (let i = 0 ; i < 5 ; i++) {
+        $rating.append($("<img>", {
+            src: i < video.star ? "images/star_on.png" : "images/star_off.png",
+            alt: i < video.star ? "star on" : "star off"
+        }));
+    }
+
+    // Build whole video element.
+    const $col = $("<div>", {class: "carousel-card"})
+        .append($("<div>", {class: "card"})
+            .append($("<img>", {
+                src: video.thumb_url,
+                class: "card-img-top",
+                alt: "Video thumbnail"
+            })).append($("<div>", {class: "card-img-overlay text-center"})
+            .append($("<img>", {
+                src: "images/play.png",
+                alt: "Play",
+                width: "64px",
+                class: "align-self-center play-overlay"
+            }))
+        ).append($("<div>", {class: "card-body"})
+            .append($("<h5>", {class: "card-title font-weight-bold"}).text(video.title))
+            .append($("<p>", {class: "card-text text-muted"}).text(video["sub-title"]))
+            .append($("<div>", {class: "creator d-flex align-items-center"})
+                .append($("<img>", {
+                    src: video.author_pic_url,
+                    alt: "Creator of video",
+                    width: "30px",
+                    class: "rounded-circle"
+                })).append($("<h6>", {class: "pl-3 m-0 main-color"}).text(video.author))
+            ).append($("<div>", {class: "info pt-3 d-flex justify-content-between"})
+                .append($rating)
+                .append($("<span>", {class: "main-color"}).text(video.duration))
+            )
+        )
+    );
+
+    return $col;
+}
+
+async function loadVideos() {
+    // Build videos section with fetched videos.
+    const name = "videos"
+    const $carousel = $(`#${name}-carousel`);
+
+    setLoading(true);
+
+    let response = await getVideos();
+
+    const $item = $("<div>", {class: "viewport overflow-hidden"});
+    const $row = $("<div>", {class: "track d-flex flex-nowrap"});
+
+    response.forEach(video => {
+        let $col = buildVideoElement(video);
+
+        $row.append($col);
+    });
+
+    $item.append($row);
+    $carousel.append($item);
+
+    const carousel = createCarousel(name);
     carousel.maxSlide = $carousel.find(".carousel-card").length - 4;
 
     setLoading(false);
@@ -176,4 +257,5 @@ $(document).ready(function() {
 
     setTimeout(() => { loadQuotes(); }, 500);
     setTimeout(() => { loadTutorials(); }, 500);
+    setTimeout(() => { loadVideos(); }, 500);
 });
