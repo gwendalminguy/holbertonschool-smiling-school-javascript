@@ -70,26 +70,26 @@ async function loadTutorials() {
     const $item = $("<div>", {class: "viewport overflow-hidden"});
     const $row = $("<div>", {class: "track d-flex flex-nowrap"});
 
-    response.forEach(tutorials => {
-        console.log(tutorials);
+    response.forEach(tutorial => {
+        console.log(tutorial);
 
-        // Building tutorials rating
+        // Building tutorial rating
         const $rating = $("<div>", { class: "rating" });
 
         for (let i = 0 ; i < 5 ; i++) {
             $rating.append($("<img>", {
-                src: i < tutorials.star ? "images/star_on.png" : "images/star_off.png",
-                alt: i < tutorials.star ? "star on" : "star off"
+                src: i < tutorial.star ? "images/star_on.png" : "images/star_off.png",
+                alt: i < tutorial.star ? "star on" : "star off"
             }));
         }
 
-        // Building whole tutorials element
+        // Building whole tutorial element
         const $col = $("<div>", {class: "carousel-card"})
             .append($("<div>", {class: "card"})
                 .append($("<img>", {
-                    src: tutorials.thumb_url,
+                    src: tutorial.thumb_url,
                     class: "card-img-top",
-                    alt: "tutorials thumbnail"
+                    alt: "Video thumbnail"
                 })).append($("<div>", {class: "card-img-overlay text-center"})
                 .append($("<img>", {
                     src: "images/play.png",
@@ -98,18 +98,18 @@ async function loadTutorials() {
                     class: "align-self-center play-overlay"
                 }))
             ).append($("<div>", {class: "card-body"})
-                .append($("<h5>", {class: "card-title font-weight-bold"}).text(tutorials.title))
-                .append($("<p>", {class: "card-text text-muted"}).text(tutorials["sub-title"]))
+                .append($("<h5>", {class: "card-title font-weight-bold"}).text(tutorial.title))
+                .append($("<p>", {class: "card-text text-muted"}).text(tutorial["sub-title"]))
                 .append($("<div>", {class: "creator d-flex align-items-center"})
                     .append($("<img>", {
-                        src: tutorials.author_pic_url,
-                        alt: "Creator of tutorials",
+                        src: tutorial.author_pic_url,
+                        alt: "Creator of tutorial",
                         width: "30px",
                         class: "rounded-circle"
-                    })).append($("<h6>", {class: "pl-3 m-0 main-color"}).text(tutorials.author))
+                    })).append($("<h6>", {class: "pl-3 m-0 main-color"}).text(tutorial.author))
                 ).append($("<div>", {class: "info pt-3 d-flex justify-content-between"})
                     .append($rating)
-                    .append($("<span>", {class: "main-color"}).text(tutorials.duration))
+                    .append($("<span>", {class: "main-color"}).text(tutorial.duration))
                 )
             )
         );
