@@ -110,18 +110,15 @@
         <div class="container">
           <div class="row py-4">
             <div class="col-12 col-sm-12 col-lg-4 box1">
-              <span class="text-white font-weight-bold drop-down-title"
-                >KEYWORDS</span
-              >
+              <span class="text-white font-weight-bold drop-down-title">KEYWORDS</span>
 
               <div class="input-group mb-sm-4">
                 <div class="input-group-prepend">
-                  <span
-                    class="input-group-text holberton_school-icon-search_1"
-                  ></span>
+                  <span class="input-group-text holberton_school-icon-search_1"></span>
                 </div>
                 <input
                   type="text"
+                  id="search-field"
                   class="form-control search-text-area"
                   aria-label="Default"
                   aria-describedby="inputGroup-sizing-default"
@@ -130,9 +127,7 @@
               </div>
             </div>
             <div class="col-12 col-sm-6 col-lg-4 box2">
-              <span class="text-white font-weight-bold drop-down-title"
-                >TOPIC</span
-              >
+              <span class="text-white font-weight-bold drop-down-title">TOPIC</span>
               <div class="dropdown">
                 <a
                   class="btn dropdown-toggle text-left"
@@ -143,23 +138,14 @@
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span>Novice</span>
+                  <span id="current-topic">All</span>
                 </a>
 
-                <div
-                  class="dropdown-menu mt-0"
-                  aria-labelledby="dropdownMenuLink"
-                >
-                  <a class="dropdown-item" href="#">Novice</a>
-                  <a class="dropdown-item" href="#">Intermediate</a>
-                  <a class="dropdown-item" href="#">Expert</a>
-                </div>
+                <div id="topic-options" class="dropdown-menu mt-0" aria-labelledby="dropdownMenuLink"></div>
               </div>
             </div>
             <div class="col-12 col-sm-6 col-lg-4 box3">
-              <span class="text-white font-weight-bold drop-down-title"
-                >SORT BY</span
-              >
+              <span class="text-white font-weight-bold drop-down-title">SORT BY</span>
               <div class="dropdown">
                 <a
                   class="btn dropdown-toggle text-left"
@@ -170,20 +156,21 @@
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span>Most Popular</span>
+                  <span id="current-sort">Most Popular</span>
                 </a>
 
-                <div
-                  class="dropdown-menu mt-0"
-                  aria-labelledby="dropdownMenuLink"
-                >
-                  <a class="dropdown-item" href="#">Most Popular</a>
-                  <a class="dropdown-item" href="#">Most Recent</a>
-                  <a class="dropdown-item" href="#">Most Viewed</a>
-                </div>
+                <div id="sort-options" class="dropdown-menu mt-0" aria-labelledby="dropdownMenuLink"></div>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+      <section class="section results">
+        <div class="container">
+          <div class="section-title">
+            <span class="text-muted video-count"></span>
+          </div>
+          <div id="search-results" class="row"></div>
         </div>
       </section>
     </main>
