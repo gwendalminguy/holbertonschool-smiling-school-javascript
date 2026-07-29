@@ -1,6 +1,6 @@
 # Smiling School - JavaScript
 
-These group of web pages were coded from scratch with the help of the Boostrap Framework and based on some design models given on Figma.
+These group of web pages were coded from scratch, and based on some design models given on Figma.
 
 [Figma Homepage](https://www.figma.com/file/QYQqMYbdpAHL5xTclwJKSI/Homepage)
 
@@ -8,21 +8,23 @@ These group of web pages were coded from scratch with the help of the Boostrap F
 
 [Figma Courses](https://www.figma.com/file/ivg3abH1HLmMayBgjGg1Qf/Courses)
 
-The designs were planned for Desktop, Tablet, and Mobile.
+The designs were planned for **Desktop**, **Tablet**, and **Mobile**.
 
-## Homepage
+## ?
+
+### Homepage
 
 | **Desktop (Width: 1440 px)**                              | **Tablet (Width: 768 px)**                              | **Mobile (Width: 576 px)**                              |
 | --------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
 | ![Desktop](https://i.ibb.co/pKGgC0J/Homepage-Desktop.png) | ![Tablet](https://i.ibb.co/6XBLwf9/Homepage-Tablet.png) | ![Mobile](https://i.ibb.co/NVBK21F/Homepage-Mobile.png) |
 
-## Pricing
+### Pricing
 
 | **Desktop (Width: 1440 px)**                             | **Tablet (Width: 768 px)**                             | **Mobile (Width: 576 px)**                             |
 | -------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------ |
 | ![Desktop](https://i.ibb.co/RvSJ2YS/Pricing-Desktop.png) | ![Tablet](https://i.ibb.co/Gkvsf0Y/Pricing-Tablet.png) | ![Mobile](https://i.ibb.co/6RwmYck/Pricing-Mobile.png) |
 
-## Courses
+### Courses
 
 | **Desktop (Width: 1440 px)**                             | **Tablet (Width: 768 px)**                             | **Mobile (Width: 576 px)**                             |
 | -------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------ |
@@ -30,49 +32,27 @@ The designs were planned for Desktop, Tablet, and Mobile.
 
 ## Sections
 
-The Holberton Smiling School web pages were developed by sections using the Bootstrap Front-End framework and CSS styles.
+The Holberton Smiling School web pages were developed by sections using the [Bootstrap](https://getbootstrap.com) Front-End framework, CSS styles, and the [jQuery](https://jquery.com) JavaScript library. The project integrates dynamic content fetched from a remote API.
+
+Beyond the static layout, these pages feature reusable custom carousels, dynamic courses search with filtering and sorting, asynchronous content loading (with loading spinner indicators), and DOM manipulation entirely made with JavaScript. Particular attention was given to code organization (separation between data fetching, UI rendering, reusable builders, and interactive components).
+
+### HTML Files
+
+- [Homepage](https://github.com/gwendalminguy/holbertonschool-smiling-school-javascript/blob/master/homepage.html)
+
+- [Pricing](https://github.com/gwendalminguy/holbertonschool-smiling-school-javascript/blob/master/pricing.html)
+
+- [Courses](https://github.com/gwendalminguy/holbertonschool-smiling-school-javascript/blob/master/courses.html)
 
 ### CSS File
 
-[Styles](https://github.com/jzamora5/holberton-smiling-school/blob/master/styles.css)
+- [Styles](https://github.com/gwendalminguy/holbertonschool-smiling-school-javascript/blob/master/styles.css)
 
-### Homepage
+### JavaScript File
 
-[Homepage Header/Hero Section](https://github.com/jzamora5/holberton-smiling-school/blob/master/0-homepage.html)
-
-[Carousel of quotes](https://github.com/jzamora5/holberton-smiling-school/blob/master/1-homepage.html)
-
-[Popular Videos](https://github.com/jzamora5/holberton-smiling-school/blob/master/2-homepage.html)
-
-[Row of smiles](https://github.com/jzamora5/holberton-smiling-school/blob/master/3-homepage.html)
-
-[Latest Videos](https://github.com/jzamora5/holberton-smiling-school/blob/master/4-homepage.html)
-
-[Footer](https://github.com/jzamora5/holberton-smiling-school/blob/master/homepage.html)
-
-### Pricing
-
-[Pricing Header](https://github.com/jzamora5/holberton-smiling-school/blob/master/0-pricing.html)
-
-[Prices Grid](https://github.com/jzamora5/holberton-smiling-school/blob/master/1-pricing.html)
-
-[Quotes Section](https://github.com/jzamora5/holberton-smiling-school/blob/master/2-pricing.html)
-
-[FAQ](https://github.com/jzamora5/holberton-smiling-school/blob/master/3-pricing.html)
-
-[Footer](https://github.com/jzamora5/holberton-smiling-school/blob/master/pricing.html)
-
-### Courses
-
-[Courses Header](https://github.com/jzamora5/holberton-smiling-school/blob/master/0-courses.html)
-
-[Search Filters](https://github.com/jzamora5/holberton-smiling-school/blob/master/1-courses.html)
-
-[List of Results](https://github.com/jzamora5/holberton-smiling-school/blob/master/2-courses.html)
-
-[Footer](https://github.com/jzamora5/holberton-smiling-school/blob/master/courses.html)
+- [Scripts](https://github.com/gwendalminguy/holbertonschool-smiling-school-javascript/blob/master/scripts.js)
 
 ## Authors
 
-- Jhoan Zamora: [jzamora5](https://github.com/jzamora5)
-- Gwendal Minguy-Pèlerin: [gwendalminguy](https://github.com/gwendalminguy)
+- Jhoan Zamora: [jzamora5](https://github.com/jzamora5) (HTML/CSS)
+- Gwendal Minguy-Pèlerin: [gwendalminguy](https://github.com/gwendalminguy) (JS)
