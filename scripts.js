@@ -1,7 +1,68 @@
+// API BASE:
+const BASE_API = "https://smileschool-api.hbtn.info"
+
+// FILTERS STATE:
+let filters = {
+    q: "",
+    topic: "",
+    sort: ""
+}
+
+async function loadFilters() {
+    // Retrieve and load `sorts` and `topics` values from `smileschool-api`.
+    const response = await getElements(`${BASE_API}/courses`);
+
+    const $topics = $("#topic-options");
+    const $sorts = $("#sort-options");
+    const $search = $("#search-field");
+
+    // Set `topics` values.
+    response.topics.forEach(topic => {
+        $topics.append($("<a>", {
+            class: "dropdown-item",
+            href: "#",
+            "data-value": topic
+        }).text(titleCase(topic)));
+    });
+
+    // Set `sorts` values.
+    response.sorts.forEach(sort => {
+        $sorts.append($("<a>", {
+            class: "dropdown-item",
+            href: "#",
+            "data-value": sort
+        }).text(titleCase(sort)));
+    });
+
+    // Set listeners to update state `filters` and call API.
+    $search.on("keydown", function (e) {
+        if (e.key === "Enter") {
+            filters.q = this.value;
+            loadCourses();
+        }
+    });
+
+    $topics.on("click", ".dropdown-item", function (e) {
+        e.preventDefault();
+
+        $("#current-topic").text(titleCase($(this).data("value")));
+        filters.topic = $(this).data("value");
+        loadCourses();
+    });
+
+    $sorts.on("click", ".dropdown-item", function (e) {
+        e.preventDefault();
+
+        $("#current-sort").text(titleCase($(this).data("value")));
+        filters.sort = $(this).data("value");
+        loadCourses();
+    });
+}
+
 // FETCHING:
-function getElements(link) {
-    // Fetch quotes informations from `smileschool-api`.
-    return $.get(link)
+function getElements(link, params = {}) {
+    // Fetch elements from `smileschool-api`.
+    return $.get(link, params)
         .fail(function(error) {
             console.error(error);
             alert("Server Error");
@@ -15,7 +76,45 @@ function setLoading(loading) {
     $(".carousel-inner").toggle(!loading);
 }
 
+// TITLE FORMATTING:
+function titleCase(text) {
+    // Transform values to readable text ("most_recent" -> "Most Recent").
+    return text
+        .replaceAll("_", " ")
+        .replace(/\b\w/g, letter => letter.toUpperCase());
+}
+
+// STAR RATING:
+function buildRating(item) {
+    // Build and return item rating with stars.
+    const $rating = $("<div>", { class: "rating" });
+
+    for (let i = 0; i < 5; i++) {
+        $rating.append($("<img>", {
+            src: i < item.star ? "images/star_on.png" : "images/star_off.png",
+            alt: i < item.star ? "star on" : "star off"
+        }));
+    }
+
+    return $rating;
+}
+
 // CAROUSEL:
+function getVisibleCards() {
+    // Find out how many cards to display to make carousel responsive.
+    const width = window.innerWidth;
+
+    if (width < 576) {
+        return 1;
+    }
+
+    if (width < 992) {
+        return 2;
+    }
+
+    return 4;
+}
+
 function createCarousel(name) {
     // Create a carousel.
     const $carousel = $(`#${name}-carousel`);
@@ -41,16 +140,42 @@ function createCarousel(name) {
         }
     };
 
-    // Add sliders behavior
+    // Add sliders behavior.
     $carousel.find(".carousel-arrow-right").on("click", () => carousel.move(1));
     $carousel.find(".carousel-arrow-left").on("click", () => carousel.move(-1));
 
     return carousel;
 }
 
-// QUOTES:
-function buildQuoteElement(quote) {
-    // Building each quote element.
+async function loadCarousel(name, url) {
+    // Load carousel with fetched elements.
+    const $carousel = $(`#${name}-carousel`);
+
+    setLoading(true);
+
+    let response = await getElements(url);
+
+    const $item = $("<div>", {class: "viewport overflow-hidden"});
+    const $row = $("<div>", {class: "track d-flex flex-nowrap"});
+
+    response.forEach(element => {
+        let $col = buildCard(element);
+
+        $row.append($col);
+    });
+
+    $item.append($row);
+    $carousel.append($item);
+
+    const carousel = createCarousel(name);
+    carousel.maxSlide = $carousel.find(".carousel-card").length - getVisibleCards();
+
+    setLoading(false);
+}
+
+// BUILDERS:
+function buildQuote(quote) {
+    // Build each quote.
     const $element = $("<div>", {class: `carousel-item ${quote.id === 1 ? "active" : ""}`}) // Setting first item to 'active'
         .append($("<div>", {class: "row mx-auto align-items-center"})
             .append($("<div>", {class: "col-12 col-sm-2 col-lg-2 offset-lg-1 text-center"})
@@ -73,172 +198,94 @@ function buildQuoteElement(quote) {
     return $element;
 }
 
+function buildCard(item) {
+    // Build item rating.
+    const $rating = buildRating(item);
+
+    // Build whole item.
+    const $col = $("<div>", {class: "carousel-card"})
+        .append($("<div>", {class: "card border"})
+            .append($("<img>", {
+                src: item.thumb_url,
+                class: "card-img-top",
+                alt: "Video thumbnail"
+            })).append($("<div>", {class: "card-img-overlay text-center"})
+            .append($("<img>", {
+                src: "images/play.png",
+                alt: "Play",
+                width: "64px",
+                class: "align-self-center play-overlay"
+            }))
+        ).append($("<div>", {class: "card-body"})
+            .append($("<h5>", {class: "card-title font-weight-bold"}).text(item.title))
+            .append($("<p>", {class: "card-text text-muted"}).text(item["sub-title"]))
+            .append($("<div>", {class: "creator d-flex align-items-center"})
+                .append($("<img>", {
+                    src: item.author_pic_url,
+                    alt: "Creator of content",
+                    width: "30px",
+                    class: "rounded-circle"
+                })).append($("<h6>", {class: "pl-3 m-0 main-color"}).text(item.author))
+            ).append($("<div>", {class: "info pt-3 d-flex justify-content-between"})
+                .append($rating)
+                .append($("<span>", {class: "main-color"}).text(item.duration))
+            )
+        )
+    );
+
+    return $col;
+}
+
+// QUOTES:
 async function loadQuotes() {
     // Build quotes section with fetched quotes.
     let $carousel = $(".quotes .carousel-inner");
 
     setLoading(true);
 
-    let response = await getElements("https://smileschool-api.hbtn.info/quotes");
+    let response = await getElements(`${BASE_API}/quotes`);
 
     response.forEach(quote => {
-        let $element = buildQuoteElement(quote);
+        let $element = buildQuote(quote);
         $carousel.append($element);
     });
 
     setLoading(false);
 }
 
-// POPULAR TUTORIALS:
-function buildTutorialElement(tutorial) {
-    // Build tutorial rating.
-    const $rating = $("<div>", { class: "rating" });
-
-    for (let i = 0 ; i < 5 ; i++) {
-        $rating.append($("<img>", {
-            src: i < tutorial.star ? "images/star_on.png" : "images/star_off.png",
-            alt: i < tutorial.star ? "star on" : "star off"
-        }));
-    }
-
-    // Build whole tutorial element.
-    const $col = $("<div>", {class: "carousel-card"})
-        .append($("<div>", {class: "card"})
-            .append($("<img>", {
-                src: tutorial.thumb_url,
-                class: "card-img-top",
-                alt: "Video thumbnail"
-            })).append($("<div>", {class: "card-img-overlay text-center"})
-            .append($("<img>", {
-                src: "images/play.png",
-                alt: "Play",
-                width: "64px",
-                class: "align-self-center play-overlay"
-            }))
-        ).append($("<div>", {class: "card-body"})
-            .append($("<h5>", {class: "card-title font-weight-bold"}).text(tutorial.title))
-            .append($("<p>", {class: "card-text text-muted"}).text(tutorial["sub-title"]))
-            .append($("<div>", {class: "creator d-flex align-items-center"})
-                .append($("<img>", {
-                    src: tutorial.author_pic_url,
-                    alt: "Creator of tutorial",
-                    width: "30px",
-                    class: "rounded-circle"
-                })).append($("<h6>", {class: "pl-3 m-0 main-color"}).text(tutorial.author))
-            ).append($("<div>", {class: "info pt-3 d-flex justify-content-between"})
-                .append($rating)
-                .append($("<span>", {class: "main-color"}).text(tutorial.duration))
-            )
-        )
-    );
-
-    return $col;
-}
-
-async function loadTutorials() {
-    // Build tutorials section with fetched videos.
-    const name = "tutorials"
-    const $carousel = $(`#${name}-carousel`);
-
+// COURSES:
+async function loadCourses() {
+    // Build courses section with fetched courses.
     setLoading(true);
 
-    let response = await getElements("https://smileschool-api.hbtn.info/popular-tutorials");
+    // Remove all content from results section.
+    const $row = $(".results .row");
+    $row.empty();
 
-    const $item = $("<div>", {class: "viewport overflow-hidden"});
-    const $row = $("<div>", {class: "track d-flex flex-nowrap"});
+    let response = await getElements(`${BASE_API}/courses`, filters);
 
-    response.forEach(tutorial => {
-        let $col = buildTutorialElement(tutorial);
+    response.courses.forEach(course => {
+        let $col = buildCard(course);
 
         $row.append($col);
     });
 
-    $item.append($row);
-    $carousel.append($item);
-
-    const carousel = createCarousel(name);
-    carousel.maxSlide = $carousel.find(".carousel-card").length - 4;
-
-    setLoading(false);
-}
-
-// LATEST VIDEOS:
-function buildVideoElement(video) {
-    // Build video rating.
-    const $rating = $("<div>", { class: "rating" });
-
-    for (let i = 0 ; i < 5 ; i++) {
-        $rating.append($("<img>", {
-            src: i < video.star ? "images/star_on.png" : "images/star_off.png",
-            alt: i < video.star ? "star on" : "star off"
-        }));
-    }
-
-    // Build whole video element.
-    const $col = $("<div>", {class: "carousel-card"})
-        .append($("<div>", {class: "card"})
-            .append($("<img>", {
-                src: video.thumb_url,
-                class: "card-img-top",
-                alt: "Video thumbnail"
-            })).append($("<div>", {class: "card-img-overlay text-center"})
-            .append($("<img>", {
-                src: "images/play.png",
-                alt: "Play",
-                width: "64px",
-                class: "align-self-center play-overlay"
-            }))
-        ).append($("<div>", {class: "card-body"})
-            .append($("<h5>", {class: "card-title font-weight-bold"}).text(video.title))
-            .append($("<p>", {class: "card-text text-muted"}).text(video["sub-title"]))
-            .append($("<div>", {class: "creator d-flex align-items-center"})
-                .append($("<img>", {
-                    src: video.author_pic_url,
-                    alt: "Creator of video",
-                    width: "30px",
-                    class: "rounded-circle"
-                })).append($("<h6>", {class: "pl-3 m-0 main-color"}).text(video.author))
-            ).append($("<div>", {class: "info pt-3 d-flex justify-content-between"})
-                .append($rating)
-                .append($("<span>", {class: "main-color"}).text(video.duration))
-            )
-        )
-    );
-
-    return $col;
-}
-
-async function loadVideos() {
-    // Build videos section with fetched videos.
-    const name = "videos"
-    const $carousel = $(`#${name}-carousel`);
-
-    setLoading(true);
-
-    let response = await getElements("https://smileschool-api.hbtn.info/latest-videos");
-
-    const $item = $("<div>", {class: "viewport overflow-hidden"});
-    const $row = $("<div>", {class: "track d-flex flex-nowrap"});
-
-    response.forEach(video => {
-        let $col = buildVideoElement(video);
-
-        $row.append($col);
-    });
-
-    $item.append($row);
-    $carousel.append($item);
-
-    const carousel = createCarousel(name);
-    carousel.maxSlide = $carousel.find(".carousel-card").length - 4;
+    // Update results counter.
+    let $counter = $(".video-count");
+    $counter.text(`${response.courses.length} videos`);
 
     setLoading(false);
 }
 
 $(document).ready(function() {
     $("<div>", {class: "loader"}).insertBefore(".carousel-inner");
+    $("<div>", {class: "loader"}).insertBefore("#search-results");
 
-    setTimeout(() => { loadQuotes(); }, 500);
-    setTimeout(() => { loadTutorials(); }, 500);
-    setTimeout(() => { loadVideos(); }, 500);
+    loadFilters();
+
+    // Timeouts are only there to actually see the loading spinner.
+    setTimeout(() => { loadQuotes(); }, 300);
+    setTimeout(() => { loadCarousel("videos", `${BASE_API}/latest-videos`); }, 300);
+    setTimeout(() => { loadCarousel("tutorials", `${BASE_API}/popular-tutorials`); }, 300);
+    setTimeout(() => { loadCourses(); }, 300);
 });
