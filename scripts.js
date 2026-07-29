@@ -285,7 +285,8 @@ $(document).ready(function() {
 
     loadFilters();
 
-    // Timeouts are only there to actually see the loading spinner.
+    // Timeouts are only there to actually see the loading spinners,
+    // I would obviously remove them in an actual webpage that isn't an exercise.
     setTimeout(() => { loadQuotes(); }, 300);
     setTimeout(() => { loadCarousel("videos", `${BASE_API}/latest-videos`); }, 300);
     setTimeout(() => { loadCarousel("tutorials", `${BASE_API}/popular-tutorials`); }, 300);
