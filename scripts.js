@@ -36,6 +36,8 @@ async function loadFilters() {
 
     // Set listeners to update state `filters` and call API.
     $search.on("keydown", function (e) {
+        // I chose to wait for 'enter' to send the request (instead of a debounce),
+        // because we're fetching actual results, not suggestions in a dropdown.
         if (e.key === "Enter") {
             filters.q = this.value;
             loadCourses();
