@@ -1,16 +1,41 @@
 # Smiling School - JavaScript
 
-These group of web pages were coded from scratch, and based on some design models given on Figma.
+This project consists of three responsive web pages developed from scratch, based on design mockups created in **Figma**.
 
-[Figma Homepage](https://www.figma.com/file/QYQqMYbdpAHL5xTclwJKSI/Homepage)
-
-[Figma Pricing](https://www.figma.com/file/KLAI53jdYpfFNEy0O79ymB/Pricing)
-
-[Figma Courses](https://www.figma.com/file/ivg3abH1HLmMayBgjGg1Qf/Courses)
+- [Figma Homepage](https://www.figma.com/file/QYQqMYbdpAHL5xTclwJKSI/Homepage)
+- [Figma Pricing](https://www.figma.com/file/KLAI53jdYpfFNEy0O79ymB/Pricing)
+- [Figma Courses](https://www.figma.com/file/ivg3abH1HLmMayBgjGg1Qf/Courses)
 
 The designs were planned for **Desktop**, **Tablet**, and **Mobile**.
 
-## ?
+## Features
+
+The project was developed using the [Bootstrap](https://getbootstrap.com) Front-End framework, custom CSS styles, and the [jQuery](https://jquery.com) JavaScript library.
+
+The JavaScript code is organized around reusable functions and components, with a clear separation between data fetching, DOM generation, and interactive behaviors. Reusable builders and utility functions are used in the project to keep the code modular, readable, and easy to maintain.
+
+Theses web pages include the following interactive features:
+
+- Dynamic content loaded from a remote API
+- Reusable custom carousel component
+- Search courses by keywords
+- Filter courses by topic
+- Sort courses by popularity or recency
+- Responsive layout
+
+## Structure
+
+The project is structured around the following files:
+
+| File | Description |
+| :------ | :---------- |
+| [`homepage.html`](homepage.html) | The homepage file. |
+| [`pricing.html`](pricing.html) | The pricing page file. |
+| [`courses.html`](courses.html) | The courses page file. |
+| [`styles.css`](styles.css) | The shared styles file. |
+| [`scripts.js`](scripts.js) | The application logic file. |
+
+## Preview
 
 ### Homepage
 
@@ -29,28 +54,6 @@ The designs were planned for **Desktop**, **Tablet**, and **Mobile**.
 | **Desktop (Width: 1440 px)**                             | **Tablet (Width: 768 px)**                             | **Mobile (Width: 576 px)**                             |
 | -------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------ |
 | ![Desktop](https://i.ibb.co/y51S3HX/Courses-Desktop.png) | ![Tablet](https://i.ibb.co/28qK1g0/Courses-Tablet.png) | ![Mobile](https://i.ibb.co/f8zNgkx/Courses-Mobile.png) |
-
-## Sections
-
-The Holberton Smiling School web pages were developed by sections using the [Bootstrap](https://getbootstrap.com) Front-End framework, CSS styles, and the [jQuery](https://jquery.com) JavaScript library. The project integrates dynamic content fetched from a remote API.
-
-Beyond the static layout, these pages feature reusable custom carousels, dynamic courses search with filtering and sorting, asynchronous content loading (with loading spinner indicators), and DOM manipulation entirely made with JavaScript. Particular attention was given to code organization (separation between data fetching, UI rendering, reusable builders, and interactive components).
-
-### HTML Files
-
-- [Homepage](https://github.com/gwendalminguy/holbertonschool-smiling-school-javascript/blob/master/homepage.html)
-
-- [Pricing](https://github.com/gwendalminguy/holbertonschool-smiling-school-javascript/blob/master/pricing.html)
-
-- [Courses](https://github.com/gwendalminguy/holbertonschool-smiling-school-javascript/blob/master/courses.html)
-
-### CSS File
-
-- [Styles](https://github.com/gwendalminguy/holbertonschool-smiling-school-javascript/blob/master/styles.css)
-
-### JavaScript File
-
-- [Scripts](https://github.com/gwendalminguy/holbertonschool-smiling-school-javascript/blob/master/scripts.js)
 
 ## Authors
 
